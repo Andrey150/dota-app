@@ -1,0 +1,151 @@
+.hero {
+  &-wrap {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      .hero-img {
+        transform: scale(2);
+        box-shadow: 6px 6px 16px #367cc7;
+      }
+
+    }
+  }
+
+  &-img {
+    aspect-ratio: 1.7;
+    transition: all .3s ease-in;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-row {
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    background: #00000033;
+
+    .hero-bg {
+      background-repeat: no-repeat;
+      filter: blur(25px);
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .accordion-item {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+  
+  }
+
+  &-description {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 24px;
+
+    .roles>span:not(:first-child)::before {
+      content: '-';
+    }
+  }
+
+  &-attr {
+    display: flex;
+    flex-direction: column;
+
+    .attr {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      &-str {
+        &::before {
+          background-color: #f44336;
+        }
+      }
+      &-agi {
+        &::before {
+          background-color: #39d402;
+        }
+      }
+      &-int {
+        &::before {
+          background-color: #01a9f4;
+        }
+      }
+    }
+  }
+  &-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: start;
+    margin-bottom: 24px;
+
+    .info-row {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  &-points {
+    display: flex;
+    flex-direction: column;
+
+    .points {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 1.6em;
+      filter: brightness(0.9);
+
+      &-health {
+        background-color: #39d402;
+      }
+
+      &-mana {
+        background-color: #01a9f4;
+      }
+
+      span {
+        position: absolute;
+        right: 24px;
+        color: #fff;
+        opacity: 1;
+      }
+    }
+  }
+}
