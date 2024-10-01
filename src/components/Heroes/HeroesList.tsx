@@ -24,7 +24,6 @@ const HeroesList = () => {
       getHeroStats()
         .then((res) => {
           if (res) {
-            console.log('res', res)
             setHeroList(res);
           }
         })

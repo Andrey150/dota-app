@@ -7,6 +7,7 @@ import {
   Outlet,
   NavLink,
 } from "react-router-dom";
+import SideComponent from '../SideComponent/SideComponent';
 
 type propType = {
   match: string;
@@ -37,7 +38,13 @@ export const Layout: FC<propType> = (props) => {
         </nav>
       </header>
       <main className='container'>
-        <Outlet /> {/* Здесь будет рендериться основной контент в зависимости от текущего пути */}
+        <div className="row">
+          <div className="content">
+            <Outlet />
+          </div>
+          <SideComponent />
+        </div>
+
       </main>
     </>
   )

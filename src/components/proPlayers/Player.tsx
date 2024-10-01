@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { IPlayer } from '../../types/data';
 import { useService } from '../../services/api';
+import { Avatar } from '@mui/material';
 
 const Player = () => {
   const [currentPlayer, setCurrentPlayer] = useState<IPlayer | null>(null);
@@ -31,9 +32,7 @@ const Player = () => {
       {
         currentPlayer ?
           <div key={currentPlayer.account_id} className='team-item'>
-            <div className="team-img">
-              <img src={currentPlayer.avatarfull} alt="player" />
-            </div>
+            <Avatar sx={{ width: 128, height: 128 }} src={currentPlayer.avatarfull} alt="player" />
 
             <div className='team-detail'>
               <h2>{currentPlayer.name}</h2>

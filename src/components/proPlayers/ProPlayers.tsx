@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import { useService } from '../../services/api'
 import { IPlayers } from '../../types/data';
 import './proplayer.scss'
+import { Avatar } from '@mui/material';
 
 export const ProPlayersList = () => {
 
@@ -43,9 +44,7 @@ export const ProPlayersList = () => {
       <h1>ProPlayer</h1>
       {currentPlayers.map(player => (
         <div className="player__item" key={player.account_id}>
-          <div className="player-img">
-            <img src={player.avatarfull} alt="img" />
-          </div>
+          <Avatar sx={{ width: 128, height: 128 }} src={player.avatarfull} alt="img" />
           <div className='player__description'>
             <h2>{player.name ? player.name : null}</h2>
             <h2> Играет за команду {player.team_name} - {player.team_tag}</h2>
