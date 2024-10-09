@@ -8,6 +8,8 @@ import {
   NavLink,
 } from "react-router-dom";
 import SideComponent from '../SideComponent/SideComponent';
+import { Container } from '@mui/material';
+import './layout.scss'
 
 type propType = {
   match: string;
@@ -37,15 +39,14 @@ export const Layout: FC<propType> = (props) => {
           </div>
         </nav>
       </header>
-      <main className='container'>
-        <div className="row">
-          <div className="content">
-            <Outlet />
-          </div>
-          <SideComponent />
-        </div>
+      <Container className='wrapper' maxWidth='xl' style={{paddingTop: "24px"}}>
+        <Container fixed>
+          <Outlet />
+        </Container>
+        <SideComponent />
+      </Container>
 
-      </main>
+
     </>
   )
 }
