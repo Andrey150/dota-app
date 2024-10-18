@@ -1,40 +1,18 @@
-import React, { useState, useEffect, useTransition, useMemo, useCallback } from 'react';
-
-import { useService } from '../../services/api';
-import { IHeroStats } from '../../types/data';
-
-import close from '../../img/svg/close.svg';
-
-import './hero.scss'
+import React, { useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-
+import { useAppSelector } from '../../store';
+import close from '../../img/svg/close.svg';
+import './hero.scss'
 
 const HeroesList = () => {
-  const [heroList, setHeroList] = useState<IHeroStats[]>([]);
   const [selectedAttackType, setSelectedAttackType] = useState<string>('');
   const [selectedRole, setSelectedRole] = useState<string[]>([]);
   const [text, setText] = useState<string>('');
-  const [isPending, startTransition] = useTransition()
-
-  const { getHeroStats } = useService();
-
-  const getHeroList = () => {
-    startTransition(() => {
-      getHeroStats()
-        .then((res) => {
-          if (res) {
-            setHeroList(res);
-          }
-        })
-        .catch((err) => {
-          console.log('err', err);
-        });
-    });
-  }
+  const heroes = useAppSelector((state) => state.hero.heroes);
 
   const filteredHeroes = useMemo(() => {
-    return heroList.filter((hero) => {
+    return heroes.filter((hero) => {
       // Фильтрация по имени
       const matchesName = hero.localized_name.toLowerCase().includes(text);
 
@@ -49,9 +27,7 @@ const HeroesList = () => {
 
       return matchesName && matchesAttack && matchesRole;
     });
-  }, [text, heroList, selectedAttackType, selectedRole]);
-
-
+  }, [text, heroes, selectedAttackType, selectedRole]);
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value.toLowerCase());
@@ -91,14 +67,6 @@ const HeroesList = () => {
     'Support',
     'Pusher',
   ];
-
-  useEffect(() => {
-    getHeroList();
-  }, []);
-
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <>

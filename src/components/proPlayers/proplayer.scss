@@ -3,10 +3,14 @@
   align-items: center;
   gap: 24px;
   padding: 16px;
-  box-shadow: 10px 5px 5px #e5e5e5;
-  border: 1px solid #918a8a;
-  width: 100%;
+  border: 2px solid #cfe8fc;
   margin: 0 auto 32px;
+  border-radius: 16px;
+  transition: background-color .3s ease-in-out;
+
+  &:hover {
+    background-color: #cfe8fc;
+  }
 }
 
 .player-img {

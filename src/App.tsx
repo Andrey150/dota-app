@@ -17,7 +17,14 @@ import { Hero } from './components/Heroes/Hero';
 import './App.css';
 
 
-
+const Murkup = () => {
+  return (
+    <>
+      <h1>Приложение</h1>
+      <h2>Приложение с использованием: React, Redux, TS</h2>
+    </>
+  )
+}
 
 function App() {
 
@@ -26,7 +33,7 @@ function App() {
       {/* <Layout/> */}
       <Routes>
         <Route path='/' element={<Layout match='match' players='players' teams='teams' heroes='heroes'/>  }>
-          <Route index element={<h1>Приложение</h1>} />
+          <Route index element={<Murkup/>} />
           <Route path='match' element={<Match />} />
           <Route path='players' element={<ProPlayersList />} />
           <Route path='teams' element={<TeamsList />} />

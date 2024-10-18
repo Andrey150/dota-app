@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useService } from '../../services/api';
+import { TextField } from '@mui/material';
 
 export const Match = () => {
   const [match, setMatch] = useState<{ id: number; dire: string; radiant: string } | undefined>(undefined);
@@ -76,11 +77,12 @@ export const Match = () => {
 
   return (
     <>
-      <input
-        type="text"
-        name="search"
-        value={matchId}
+      <TextField
+        id="outlined-uncontrolled"
+        label="Номер матча"
+        defaultValue={matchId}
         onChange={setInputValue}
+        autoComplete='true'
       />
       {match ? (
         <div>

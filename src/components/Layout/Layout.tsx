@@ -39,14 +39,12 @@ export const Layout: FC<propType> = (props) => {
           </div>
         </nav>
       </header>
-      <Container className='wrapper' maxWidth='xl' style={{paddingTop: "24px"}}>
+      <Container className='wrapper' maxWidth='xl' style={{padding: "24px"}}>
         <Container fixed>
           <Outlet />
         </Container>
         <SideComponent />
       </Container>
-
-
     </>
   )
 }
