@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { useService } from '../../services/api'
 import { IPlayers } from '../../types/data';
 import './proplayer.scss'
-import { Avatar } from '@mui/material';
+import { Avatar, CardContent, Typography } from '@mui/material';
 
 export const ProPlayersList = () => {
 
@@ -17,6 +17,7 @@ export const ProPlayersList = () => {
   const searchProPlayers = () => {
     getProPlayersList().then(res => {
       if (res) {
+        console.log(res)
         setPlayersList(res)
       }
     })
@@ -41,18 +42,23 @@ export const ProPlayersList = () => {
 
   return (
     <div>
-      <h1>ProPlayer</h1>
+      <Typography variant='h2' style={{marginBottom: "24px"}}>ProPlayer</Typography>
       {currentPlayers.map(player => (
-        <div className="player__item" key={player.account_id}>
+        <CardContent className="player__item" key={player.account_id}>
           <Avatar sx={{ width: 128, height: 128 }} src={player.avatarfull} alt="img" />
           <div className='player__description'>
-            <h2>{player.name ? player.name : null}</h2>
-            <h2> Играет за команду {player.team_name} - {player.team_tag}</h2>
-            <h3>{player.country_cod}</h3>
-            <h3>{player.personalName ? player.personalName : null}</h3>
-            <h4>Играл последний раз {player.last_match_time}</h4>
+            <Typography variant='h4' gutterBottom sx={{ fontWeight: 600}}>{player.name ? player.name : null}</Typography>
+            <Typography variant='h5' gutterBottom sx={{ color: 'text.secondary'}}>
+              Играет за команду: {player.team_name} - {player.team_tag}
+            </Typography>
+            <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 16 }}>
+              Страна: {player.country_cod ? player.country_cod : 'Не обозначена'}
+            </Typography>
+            <Typography variant="h5" component="div">
+              Играл последний раз: {player.last_match_time}
+            </Typography>
           </div>
-        </div>
+        </CardContent>
       ))}
       <div className="button-wrap">
         <Button variant="contained" onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>

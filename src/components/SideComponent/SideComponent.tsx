@@ -1,68 +1,61 @@
-import React, { useEffect, useLayoutEffect, useState, useTransition } from 'react';
-import { useService } from '../../services/api';
+import React, { useEffect, useState } from 'react';
+import { Button, CardContent, CardMedia, Skeleton, Typography } from '@mui/material';
 import { IHeroStats } from '../../types/data';
-import { Box, Button, CardContent, CardMedia, Skeleton, Typography } from '@mui/material';
+import { fetchHeroes } from '../../store/slices/heroesSlice';
+import { useAppDispatch, useAppSelector } from '../../store';
 
 import './sideComponent.scss'
 
 const SideComponent = () => {
   const [hero, setHero] = useState<IHeroStats | null>(null);
-  const [allHeroes, setAllHeroes] = useState<IHeroStats[]>([]);
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch()
+  const { heroes, status, error } = useAppSelector((state) => state.hero);
 
-  const { getHeroStats } = useService();
-
-  const getHeroList = () => {
-    startTransition(() => {
-      setError(null);
-      getHeroStats()
-        .then((res) => {
-          if (res && res.length > 0) {
-            setAllHeroes(res);
-            getRandomHero(res);
-          } else {
-            setError('Не найдено ни одного героя.');
-          }
-        })
-        .catch((err) => {
-          setError('Произошла ошибка при загрузке данных.');
-          console.log('Ошибка: ', err);
-        });
-    });
-  };
-
+  // Показывает случайного героя
   const getRandomHero = (heroesArray: IHeroStats[]) => {
     const randomIndex = Math.floor(Math.random() * heroesArray.length)
     const randomHero = heroesArray[randomIndex]
     setHero(randomHero)
   }
 
-  useEffect(() => {
-    getHeroList()
-  }, []);
-
-  useEffect(() => {
-    if (allHeroes.length > 0) {
-      const timerId = setInterval(() => {
-        getRandomHero(allHeroes);
-      }, 20000);
-
-      return () => clearInterval(timerId);
-    }
-  }, [allHeroes]);
-
-  if (isPending && !hero && !error) {
-    return <Skeleton variant="rectangular" width={210} height={118} />;
+  const handleReload = () => {
+    dispatch(fetchHeroes());
   }
 
-  if (error) {
-    return <div>{error}</div>;
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchHeroes());
+    }
+  }, [dispatch, status]);
+
+  useEffect(() => {
+    if (heroes.length > 0) {
+      getRandomHero(heroes);
+
+      const timerId = setInterval(() => {
+        getRandomHero(heroes)
+      }, 15000)
+
+      return () => clearInterval(timerId)
+    }
+  }, [heroes])
+
+  if (status === 'loading') {
+    return <Skeleton variant="rectangular" width={366} height={450} />;
+  }
+
+  if (status === 'failed') {
+    return (
+      <div>
+        <div>Герой не найден</div>
+        <Button variant="outlined" style={{ marginTop: 16 }} onClick={() => handleReload()}> Повторить запрос</Button>
+      </div>
+    );
   }
 
   return (
     <aside className='sidebar'>
-      {hero ? (
+      {hero && (
         <CardContent sx={{ maxWidth: 345, bgcolor: '#cfe8fc', borderRadius: "16px" }}>
           <CardMedia
             className='card-img'
@@ -84,10 +77,7 @@ const SideComponent = () => {
             </Typography>
           </CardContent>
         </CardContent>
-      ) : (
-        <Skeleton variant="rectangular" width={210} height={118} />
       )}
-      {/* <Button variant="contained" onClick={() => getRandomHero(allHeroes)}>Изменить</Button> */}
     </aside>
   );
 };
